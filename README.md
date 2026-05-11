@@ -49,6 +49,20 @@ voila /ytech_milm_intern/chenhejia/projects/LiveViewer/video_player.ipynb \
 3. 点击「拼接」按钮，等待 ffmpeg 处理。
 4. 页面下方依次显示：状态信息、拼接结果视频、各视频预览（含 annotation 清单）。
 
+### Annotation 转义命令
+
+文本中可插入以下占位符，渲染到对应视频时展开：
+
+| 命令 | 含义 | 说明 |
+| --- | --- | --- |
+| `/frame_idx` | 当前帧编号 | 动态值，随视频播放变化 |
+| `/name` | 当前视频的文件名 | 例如 `demo.mp4`，按所属视频分别替换 |
+
+示例：
+```
+frame: /frame_idx  (/name)
+```
+
 ## 已知事项
 
 - 视频通过 base64 内嵌到 `<video>` 标签播放，适合中小文件；超大视频会占用较多内存/带宽。
