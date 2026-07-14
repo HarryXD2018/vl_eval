@@ -1,21 +1,23 @@
 # LiveViewer
 
-基于 Jupyter + Voila 的视频横向拼接与预览工具。输入多个本地视频路径，可在每路视频上叠加文字 annotation，使用 ffmpeg 拼接成一段视频，并同时展示各路原视频预览。
+基于 Jupyter + Voila 的视频横向拼接与预览工具。输入一个或多个本地视频路径，可在每路视频上叠加文字 annotation 或烧录字幕，使用 ffmpeg 拼接成一段视频，并同时展示各路原视频预览。
 
 ![DEMO](assets/frame.png)
 
 ## 功能
 
-- 多视频横向拼接（`hstack`）+ 音频混流（`amerge`）
+- 多视频横向拼接（`hstack`）+ 音频混流（`amix`）；只输入 1 个视频时跳过拼接，直接处理该视频
 - 每路视频可叠加多条 annotation 文本，支持 6 种位置：`top / bottom / top-left / top-right / bottom-left / bottom-right`
 - Annotation 行动态增删，最多 6 行；每行文本按行对应各路视频（第 N 行对应第 N 个视频）
-- 拼接结果视频与各路视频预览在同一页面展示
+- 支持行首颜色前缀 `\red` `\blue` `\yellow`，为该行文字（或字幕）设置颜色，默认白色
+- 支持 `\srt /path/to/sub.srt` 转义，为该视频按时间轴烧录字幕文件（`.srt` / `.ass` / `.ssa` / `.vtt`）
+- 拼接结果视频与各路视频预览在同一页面展示，可一键「重置」清空所有输入
 - 仅支持 `.mp4` 视频
 
 ## 环境依赖
 
 - Python 3.10（conda 环境 `viewer`）
-- 系统已安装 `ffmpeg`
+- 系统已安装 `ffmpeg`，且需带 `libass`（烧录字幕用）与 `libfreetype`（drawtext 用）
 - Python 包：`voila`、`ipywidgets`、`ipykernel`
 
 ### 安装
@@ -42,12 +44,14 @@ voila /ytech_milm_intern/chenhejia/projects/LiveViewer/video_player.ipynb \
 
 ## 使用步骤
 
-1. 在「视频路径」文本框中每行粘贴一个视频的绝对路径。
+1. 在「视频路径」文本框中每行粘贴一个视频的绝对路径（1 个即可，无需拼接也能加 annotation）。
 2. （可选）点击 `+ 新增 annotation` 添加一行 annotation：
-   - 左侧 dropdown 选择文字位置。
+   - 左侧 dropdown 选择文字位置（仅对普通文本行生效，字幕行固定底部居中）。
    - 右侧文本框按行写入：第 1 行对应第 1 个视频，第 2 行对应第 2 个视频……留空则该视频此条 annotation 不显示。
-3. 点击「拼接」按钮，等待 ffmpeg 处理。
-4. 页面下方依次显示：状态信息、拼接结果视频、各视频预览（含 annotation 清单）。
+   - 行首可加 `\red` / `\blue` / `\yellow` 设置该行颜色；不加则为默认白色。
+   - 行内写 `\srt /path/to/sub.srt` 可为该视频烧录字幕文件，而非普通文字。
+3. 点击「拼接」按钮，等待 ffmpeg 处理；点击「重置」可清空所有输入。
+4. 页面下方依次显示：状态信息、处理结果视频、各视频预览（含 annotation 清单）。
 
 ### Annotation 转义命令
 
@@ -55,16 +59,32 @@ voila /ytech_milm_intern/chenhejia/projects/LiveViewer/video_player.ipynb \
 
 | 命令 | 含义 | 说明 |
 | --- | --- | --- |
-| `/frame_idx` | 当前帧编号 | 动态值，随视频播放变化 |
-| `/name` | 当前视频的文件名 | 例如 `demo.mp4`，按所属视频分别替换 |
+| `\frame_idx` | 当前帧编号 | 动态值，随视频播放变化 |
+| `\name` | 当前视频的文件名 | 例如 `demo.mp4`，按所属视频分别替换 |
+
+行首颜色前缀（可选，放在行的最前面）：
+
+| 前缀 | 颜色 |
+| --- | --- |
+| `\red` | 红色 |
+| `\blue` | 蓝色 |
+| `\yellow` | 黄色 |
+
+字幕转义（该行剩余部分整体视为文件路径）：
+
+| 命令 | 含义 | 说明 |
+| --- | --- | --- |
+| `\srt <path>` | 烧录字幕文件 | 支持 `.srt` / `.ass` / `.ssa` / `.vtt`，按字幕自带时间轴显示；可与颜色前缀组合，如 `\red \srt /path/to/sub.srt` |
 
 示例：
 ```
-frame: /frame_idx  (/name)
+frame: \frame_idx  (\name)
+\blue \srt /data/subs/demo.srt
 ```
 
 ## 已知事项
 
 - 视频通过 base64 内嵌到 `<video>` 标签播放，适合中小文件；超大视频会占用较多内存/带宽。
-- 输入视频可有可无音频流：有则混流（`amerge`），全部无则输出无音轨。
+- 输入视频可有可无音频流：≥2 路有音频则混流（`amix` + 音量补偿），仅 1 路有音频则直接映射，全部无则输出无音轨。
 - 拼接输出写入 `/tmp`，由系统自行清理。
+- 字幕烧录依赖 ffmpeg 的 `subtitles` 滤镜（libass），若运行环境 ffmpeg 未编译该功能，`\srt` 会在 ffmpeg 阶段报错。
