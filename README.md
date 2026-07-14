@@ -9,6 +9,7 @@
 - 多视频横向拼接（`hstack`）+ 音频混流（`amix`）；只输入 1 个视频时跳过拼接，直接处理该视频
 - 每路视频可叠加多条 annotation 文本，支持 6 种位置：`top / bottom / top-left / top-right / bottom-left / bottom-right`
 - Annotation 行动态增删，最多 6 行；每行文本按行对应各路视频（第 N 行对应第 N 个视频）
+- 支持文本转义：`\frame_idx`（当前帧编号）、`\name`（视频文件名）、`\timestamp`（秒表，当前播放时间）
 - 支持行首颜色前缀 `\red` `\blue` `\yellow`，为该行文字（或字幕）设置颜色，默认白色
 - 支持 `\srt /path/to/sub.srt` 转义，为该视频按时间轴烧录字幕文件（`.srt` / `.ass` / `.ssa` / `.vtt`）
 - 拼接结果视频与各路视频预览在同一页面展示，可一键「重置」清空所有输入
@@ -46,7 +47,7 @@ voila /ytech_milm_intern/chenhejia/projects/LiveViewer/video_player.ipynb \
 
 1. 在「视频路径」文本框中每行粘贴一个视频的绝对路径（1 个即可，无需拼接也能加 annotation）。
 2. （可选）点击 `+ 新增 annotation` 添加一行 annotation：
-   - 左侧 dropdown 选择文字位置（仅对普通文本行生效，字幕行固定底部居中）。
+   - 左侧 dropdown 选择文字/字幕位置。
    - 右侧文本框按行写入：第 1 行对应第 1 个视频，第 2 行对应第 2 个视频……留空则该视频此条 annotation 不显示。
    - 行首可加 `\red` / `\blue` / `\yellow` 设置该行颜色；不加则为默认白色。
    - 行内写 `\srt /path/to/sub.srt` 可为该视频烧录字幕文件，而非普通文字。
@@ -61,6 +62,7 @@ voila /ytech_milm_intern/chenhejia/projects/LiveViewer/video_player.ipynb \
 | --- | --- | --- |
 | `\frame_idx` | 当前帧编号 | 动态值，随视频播放变化 |
 | `\name` | 当前视频的文件名 | 例如 `demo.mp4`，按所属视频分别替换 |
+| `\timestamp` | 秒表（当前播放时间） | 动态值，格式 `HH:MM:SS.mmm`，随视频播放变化 |
 
 行首颜色前缀（可选，放在行的最前面）：
 
@@ -78,7 +80,7 @@ voila /ytech_milm_intern/chenhejia/projects/LiveViewer/video_player.ipynb \
 
 示例：
 ```
-frame: \frame_idx  (\name)
+frame: \frame_idx  (\name)  \timestamp
 \blue \srt /data/subs/demo.srt
 ```
 
