@@ -12,6 +12,7 @@
 - 支持文本转义：`\frame_idx`（当前帧编号）、`\name`（视频文件名）、`\timestamp`（秒表，当前播放时间）
 - 支持行首颜色前缀 `\red` `\blue` `\yellow`，为该行文字（或字幕）设置颜色，默认白色
 - 支持 `\srt /path/to/sub.srt` 转义，为该视频按时间轴烧录字幕文件（`.srt` / `.ass` / `.ssa` / `.vtt`）
+- 可选 Caption：在拼接结果下方 pad 一条白色区域，居中显示黑色文字（作用于整段拼接结果，留空则不添加）
 - 拼接结果视频与各路视频预览在同一页面展示，可一键「重置」清空所有输入
 - 仅支持 `.mp4` 视频
 
@@ -46,13 +47,14 @@ voila /ytech_milm_intern/chenhejia/projects/LiveViewer/video_player.ipynb \
 ## 使用步骤
 
 1. 在「视频路径」文本框中每行粘贴一个视频的绝对路径（1 个即可，无需拼接也能加 annotation）。
-2. （可选）点击 `+ 新增 annotation` 添加一行 annotation：
+2. （可选）在「Caption」文本框填写一行文字，会在拼接结果下方的白色区域居中显示（黑色文字），留空则不添加。
+3. （可选）点击 `+ 新增 annotation` 添加一行 annotation：
    - 左侧 dropdown 选择文字/字幕位置。
    - 右侧文本框按行写入：第 1 行对应第 1 个视频，第 2 行对应第 2 个视频……留空则该视频此条 annotation 不显示。
    - 行首可加 `\red` / `\blue` / `\yellow` 设置该行颜色；不加则为默认白色。
    - 行内写 `\srt /path/to/sub.srt` 可为该视频烧录字幕文件，而非普通文字。
-3. 点击「拼接」按钮，等待 ffmpeg 处理；点击「重置」可清空所有输入。
-4. 页面下方依次显示：状态信息、处理结果视频、各视频预览（含 annotation 清单）。
+4. 点击「拼接」按钮，等待 ffmpeg 处理；点击「重置」可清空所有输入。
+5. 页面下方依次显示：状态信息、处理结果视频、各视频预览（含 annotation 清单）。
 
 ### Annotation 转义命令
 
