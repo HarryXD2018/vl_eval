@@ -12,7 +12,7 @@
 - 支持文本转义：`\frame_idx`（当前帧编号）、`\name`（视频文件名）、`\timestamp`（秒表，当前播放时间）
 - 支持行首颜色前缀 `\red` `\blue` `\yellow`，为该行文字（或字幕）设置颜色，默认白色
 - 支持 `\srt /path/to/sub.srt` 转义，为该视频按时间轴烧录字幕文件（`.srt` / `.ass` / `.ssa` / `.vtt`）
-- 可选 Caption：在拼接结果下方 pad 一条白色区域，居中显示黑色文字（作用于整段拼接结果，留空则不添加）
+- 可选 Caption：在拼接结果下方 pad 一条白色区域，居中显示黑色文字（作用于整段拼接结果，留空则不添加）；文字过长时按视频宽度自动换行（英文按空格折行，无空格的长串/中文按字符折行），白色区域高度随行数自适应
 - 拼接结果视频与各路视频预览在同一页面展示，可一键「重置」清空所有输入
 - 仅支持 `.mp4` 视频
 
@@ -20,13 +20,13 @@
 
 - Python 3.10（conda 环境 `viewer`）
 - 系统已安装 `ffmpeg`，且需带 `libass`（烧录字幕用）与 `libfreetype`（drawtext 用）
-- Python 包：`voila`、`ipywidgets`、`ipykernel`
+- Python 包：`voila`、`ipywidgets`、`ipykernel`、`pillow`（Caption 自动换行时用于测量文字宽度；缺失时退化为按字号估算）
 
 ### 安装
 
 ```bash
 conda activate viewer
-pip install voila ipywidgets ipykernel
+pip install voila ipywidgets ipykernel pillow
 
 # 在 viewer 环境下注册 Jupyter 内核（首次使用必须）
 python -m ipykernel install --user --name viewer --display-name "Python (viewer)"
@@ -47,7 +47,7 @@ voila /ytech_milm_intern/chenhejia/projects/LiveViewer/video_player.ipynb \
 ## 使用步骤
 
 1. 在「视频路径」文本框中每行粘贴一个视频的绝对路径（1 个即可，无需拼接也能加 annotation）。
-2. （可选）在「Caption」文本框填写一行文字，会在拼接结果下方的白色区域居中显示（黑色文字），留空则不添加。
+2. （可选）在「Caption」文本框填写文字，会在拼接结果下方的白色区域居中显示（黑色文字），留空则不添加；文字过长时会按视频宽度自动换行。
 3. （可选）点击 `+ 新增 annotation` 添加一行 annotation：
    - 左侧 dropdown 选择文字/字幕位置。
    - 右侧文本框按行写入：第 1 行对应第 1 个视频，第 2 行对应第 2 个视频……留空则该视频此条 annotation 不显示。
