@@ -1,0 +1,42 @@
+[
+    {
+        "id": 88,
+        "ours": "./v1112_compare/videos/ours/88.mp4",
+        "avtr-1": "./v1112_compare/videos/avtr_nobc/88.mp4",
+        "avatar forcing": "./v1112_compare/videos/avatarforcing_nobc/88.mp4",
+        "ovi": "./v1112_compare/videos/ovi/88.mp4",
+        "GT": "./v1112_compare/videos/gt/88.mp4"
+    },
+    {
+        "id": 279,
+        "ours": "./v1112_compare/videos/ours/279.mp4",
+        "avtr-1": "./v1112_compare/videos/avtr_nobc/279.mp4",
+        "avatar forcing": "./v1112_compare/videos/avatarforcing_nobc/279.mp4",
+        "ovi": "./v1112_compare/videos/ovi/279.mp4",
+        "GT": "./v1112_compare/videos/gt/279.mp4"
+    },
+    {
+        "id": 322,
+        "ours": "./v1112_compare/videos/ours/322.mp4",
+        "avtr-1": "./v1112_compare/videos/avtr_nobc/322.mp4",
+        "avatar forcing": "./v1112_compare/videos/avatarforcing_nobc/322.mp4",
+        "ovi": "./v1112_compare/videos/ovi/322.mp4",
+        "GT": "./v1112_compare/videos/gt/322.mp4"
+    },
+    {
+        "id": 368,
+        "ours": "./v1112_compare/videos/ours/368.mp4",
+        "avtr-1": "./v1112_compare/videos/avtr_nobc/368.mp4",
+        "avatar forcing": "./v1112_compare/videos/avatarforcing_nobc/368.mp4",
+        "ovi": "./v1112_compare/videos/ovi/368.mp4",
+        "GT": "./v1112_compare/videos/gt/368.mp4"
+    },
+    {
+        "id": 392,
+        "ours": "./v1112_compare/videos/ours/392.mp4",
+        "avtr-1": "./v1112_compare/videos/avtr_nobc/392.mp4",
+        "avatar forcing": "./v1112_compare/videos/avatarforcing_nobc/392.mp4",
+        "ovi": "./v1112_compare/videos/ovi/392.mp4",
+        "GT": "./v1112_compare/videos/gt/392.mp4"
+    }
+]
