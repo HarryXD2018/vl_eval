@@ -73,10 +73,6 @@ LV_ENV=volia_viewer LV_PORT=8891 bash start.sh    # 强制指定端口
 | 评测界面 | `http://<host>:8890/voila/render/user_study.ipynb` |
 | 目录列表 | `http://<host>:8890` |
 
-![KML 启动入口](assets/KML_launch.png)
-
-在 KML 界面中使用与 Jupyter 一致的方式打开前端。注意和设置的端口一致。
-
 ---
 
 ## 评测流程
@@ -188,7 +184,6 @@ LiveViewer/
 ├── requirements.txt          # Python 依赖
 ├── user_study.ipynb          # 评测界面
 ├── user_study_stats.py       # 统计汇总
-├── assets/                   # README 图片
 └── v1112_compare/
     ├── attr.json             # 片段 → 各方法视频路径
     ├── videos/{ours,avtr_nobc,avatarforcing_nobc,ovi,gt}/
